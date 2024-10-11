@@ -1,1 +1,340 @@
-h
+<html><head><base href="https://milistaml.netlify.app/"></head><body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Lista de Deseados ✨</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --text-color: #333;
+            --container-bg: white;
+            --border-color: #e0e0e0;
+            --title-color: #4a4a4a;
+            --button-bg: #0066c0;
+            --button-hover: #004c99;
+            --number-color: #0066c0;
+            --shadow-color: rgba(0,0,0,0.1);
+            --modal-bg: rgba(0,0,0,0.8);
+            --close-button-color: white;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #e0e0e0;
+                --container-bg: #2c2c2c;
+                --border-color: #444;
+                --title-color: #ffffff;
+                --button-bg: #0077e6;
+                --button-hover: #0099ff;
+                --number-color: #0099ff;
+                --shadow-color: rgba(255,255,255,0.1);
+                --modal-bg: rgba(0,0,0,0.9);
+                --close-button-color: #e0e0e0;
+            }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            margin: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--shadow-color);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        h1 {
+            color: var(--title-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .wishlist-item {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: var(--container-bg);
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex-wrap: nowrap;
+        }
+        .wishlist-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        .wishlist-item img {
+            width: calc(100% - 120px);
+            max-width: 300px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .wishlist-info {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 120px;
+            margin-left: 15px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: var(--button-bg);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+        }
+        button:hover {
+            background-color: var(--button-hover);
+        }
+        .number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 15px;
+            color: var(--number-color);
+        }
+        @keyframes sparkle {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .sparkle {
+            display: inline-block;
+            animation: sparkle 1.5s infinite;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: var(--modal-bg);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--close-button-color);
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            z-index: 1001;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .wishlist-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .wishlist-item img {
+                width: 100%;
+                max-width: none;
+                margin-bottom: 15px;
+            }
+            .wishlist-info {
+                width: 100%;
+                justify-content: center;
+                margin-left: 0;
+            }
+            button {
+                width: 100%;
+            }
+            .modal-content {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mi Lista de Deseados <span class="sparkle">✨</span></h1>
+        <p>Esta lista muestra los productos que más me gustan.</p>
+
+        <div id="wishlist">
+            <!-- Artículos agregados dinámicamente aquí -->
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        const wishlistItems = [
+            {
+                number: 1,
+                name: "Cámara DSLR profesional",
+                imageUrl: 'https://www.hola.com/horizon/landscape/d36456cc3972-portada-ok-hola-4148.jpg',
+                link: 'https://www.ejemplo.com/comprar/camara-dslr'
+            },
+            {
+                number: 2,
+                name: "Soporte para monitores",
+                imageUrl: '/2.png',
+                link: 'https://www.mercadolibre.com.ar/soporte-naku-sm-c024-de-mesa-para-monitores-de-13-a-32-negro/p/MLA19812874#reco_item_pos=3&reco_backend=item_decorator&reco_backend_type=function&reco_client=home_items-decorator-legacy&reco_id=080287dc-d9a2-4fd5-9d8c-fd8db6381b8f&reco_model=&c_id=/home/navigation-recommendations-seed/element&c_uid=548f52bf-8b0c-4d82-b6aa-3343ea32d9d8&da_id=navigation&da_position=3&id_origin=/home/dynamic_access&da_sort_algorithm=ranker'
+            },
+            {
+                number: 3,
+                name: "Smartwatch multifunción",
+                imageUrl: 'https://example.com/images/smartwatch.jpg',
+                link: 'https://www.ejemplo.com/comprar/smartwatch'
+            }
+        ];
+
+        function renderWishlist() {
+            const wishlist = document.getElementById('wishlist');
+            wishlist.innerHTML = '';
+
+            wishlistItems.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.classList.add('wishlist-item');
+
+                div.innerHTML = `
+                    <div class="number">${index + 1}</div>
+                    <img src="${item.imageUrl}" alt="${item.name}" loading="lazy" onclick="openModal(this.src)">
+                    <div class="wishlist-info">
+                        <button onclick="window.open('${item.link}', '_blank')">
+                            <i class="fas fa-shopping-cart"></i> Comprar
+                        </button>
+                    </div>
+                `;
+
+                wishlist.appendChild(div);
+            });
+        }
+
+        renderWishlist();
+
+        // Modal functionality
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        const span = document.getElementsByClassName("close")[0];
+
+        function openModal(src) {
+            modal.style.display = "flex";
+            modalImg.src = src;
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Implementación de carga perezosa para imágenes
+        document.addEventListener("DOMContentLoaded", function() {
+            var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+
+            if ("IntersectionObserver" in window) {
+                let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            let lazyImage = entry.target;
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.classList.remove("lazy");
+                            lazyImageObserver.unobserve(lazyImage);
+                        }
+                    });
+                });
+
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImageObserver.observe(lazyImage);
+                });
+            } else {
+                // Fallback para navegadores que no soportan IntersectionObserver
+                let lazyLoadThrottleTimeout;
+                function lazyLoad() {
+                    if(lazyLoadThrottleTimeout) {
+                        clearTimeout(lazyLoadThrottleTimeout);
+                    }
+
+                    lazyLoadThrottleTimeout = setTimeout(function() {
+                        let scrollTop = window.pageYOffset;
+                        lazyImages.forEach(function(img) {
+                            if(img.offsetTop < (window.innerHeight + scrollTop)) {
+                                img.src = img.dataset.src;
+                                img.classList.remove('lazy');
+                            }
+                        });
+                        if(lazyImages.length == 0) { 
+                            document.removeEventListener("scroll", lazyLoad);
+                            window.removeEventListener("resize", lazyLoad);
+                            window.removeEventListener("orientationChange", lazyLoad);
+                        }
+                    }, 20);
+                }
+
+                document.addEventListener("scroll", lazyLoad);
+                window.addEventListener("resize", lazyLoad);
+                window.addEventListener("orientationChange", lazyLoad);
+            }
+        });
+
+        // Listener para cambios en el tema del sistema
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            const newColorScheme = e.matches ? "dark" : "light";
+            // Aquí puedes agregar lógica adicional si necesitas hacer más cambios cuando el tema cambia
+            console.log(`Tema cambiado a: ${newColorScheme}`);
+        });
+    </script>
+</body>
+</html>
+</body></html>
