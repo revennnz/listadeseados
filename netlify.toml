@@ -1,0 +1,4 @@
+[[headers]]
+  for = "/*"  # Aplica la protección a todo el sitio
+  [headers.values]
+    Authorization = "Basic dXN1YXJpbzpjbGF2ZQ=="  # Autenticación básica con usuario "clave" y contraseña "clave"
